@@ -1,8 +1,8 @@
 from collections import defaultdict
 
 from pecos.engines.hybrid_engine import HybridEngine  # type: ignore
-from pecos.error_models.error_model_abc import ErrorModel  # type: ignore
 from pecos.foreign_objects.wasmtime import WasmtimeObj
+from pecos.protocols import ErrorModelProtocol  # type: ignore
 from pytket.circuit import Circuit
 from pytket.phir.api import pytket_to_phir
 from pytket.utils.outcomearray import OutcomeArray
@@ -23,7 +23,7 @@ class Emulator:
         self,
         circuit: Circuit,
         wasm: WasmModuleHandler | None = None,
-        error_model: ErrorModel | None = None,
+        error_model: ErrorModelProtocol | None = None,
         qsim: str = "stabilizer",
         seed: int | None = None,
     ):
