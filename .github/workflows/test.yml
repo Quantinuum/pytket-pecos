@@ -22,9 +22,7 @@ jobs:
         python-version: ${{ matrix.pyver }}
     - name: Install
       run: |
-        pip install -U pip wheel
-        # flit 3.10 not working on windows
-        pip install flit==3.9.0
+        pip install -U pip wheel flit
         flit install
     - name: Run tests
       run: python -m unittest test.test_emulator
