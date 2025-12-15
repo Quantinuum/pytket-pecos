@@ -1,7 +1,7 @@
 from collections import defaultdict
 
+from pecos import WasmForeignObject
 from pecos.engines.hybrid_engine import HybridEngine  # type: ignore
-from pecos.foreign_objects.wasmtime import WasmtimeObj
 from pecos.protocols import ErrorModelProtocol  # type: ignore
 from pytket.circuit import Circuit
 from pytket.phir.api import pytket_to_phir
@@ -31,7 +31,13 @@ class Emulator:
             raise ValueError("Circuit contains units that do not belong to a register.")
 
         self.phir = pytket_to_phir(circuit)
-        self.foreign_object = None if wasm is None else WasmtimeObj(wasm.bytecode())
+        self.foreign_object = (
+            None
+            if wasm is None
+            else WasmForeignObject.from_dict(
+                {"fobj_class": WasmForeignObject, "wasm_bytes": wasm.bytecode()}
+            )
+        )
         self.engine = HybridEngine(qsim=qsim, error_model=error_model)
         self.engine.use_seed(seed)
 
