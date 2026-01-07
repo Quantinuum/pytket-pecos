@@ -20,7 +20,7 @@ classifiers = [
     ]
 dependencies = [
     "pytket >=2.11.0",
-    "pytket-phir >=0.10.0",
+    "pytket-phir >=0.10.1",
     "quantum-pecos[wasmtime] >=0.8.0.dev0"
     ]
 
