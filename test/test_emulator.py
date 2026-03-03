@@ -105,6 +105,13 @@ class TestEmulator(unittest.TestCase):
         self.assertTrue(results.n_outcomes == n_shots)
         self.assertTrue(all(n in [0, 3] for n in results.to_intlist()))
 
+    def test_64bitreg(self):
+        # https://github.com/Quantinuum/pytket-pecos/issues/59
+        c = Circuit(1, 64).X(0).Measure(0, 63)
+        emu = Emulator(c)
+        result = emu.run(n_shots=1).to_intlist()[0]
+        assert result == 1
+
 
 if __name__ == "__main__":
     unittest.main()

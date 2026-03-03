@@ -18,6 +18,21 @@ def is_reglike(units):
     return all(indices == set(range(len(indices))) for indices in regmap.values())
 
 
+def sanitize(results):
+    # Convert negative binary representations to positive.
+    return {
+        c_reg: [
+            (
+                f"{int(bitstring, 2) + (1 << 64):b}"
+                if bitstring.startswith("-")
+                else bitstring
+            )
+            for bitstring in bitstrings
+        ]
+        for c_reg, bitstrings in results.items()
+    }
+
+
 class Emulator:
     def __init__(
         self,
@@ -43,7 +58,9 @@ class Emulator:
 
     def run(self, n_shots, multithreading=False) -> OutcomeArray:
         runner = self.engine.run_multisim if multithreading else self.engine.run
-        results = runner(self.phir, foreign_object=self.foreign_object, shots=n_shots)
+        results = sanitize(
+            runner(self.phir, foreign_object=self.foreign_object, shots=n_shots)
+        )
         c_regs = sorted(results.keys())
         readouts = []
         for i in range(n_shots):
