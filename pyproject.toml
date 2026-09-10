@@ -22,7 +22,7 @@ classifiers = [
 dependencies = [
     "pytket >=2.13.0",
     "pytket-phir >=0.10.1",
-    "quantum-pecos[wasmtime] >=0.8.0.dev2"
+    "quantum-pecos[wasmtime] ~=0.8.0dev2"
     ]
 
 [project.urls]
